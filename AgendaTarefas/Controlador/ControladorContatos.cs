@@ -58,6 +58,7 @@ namespace AgendaTarefas.Controlador
             }
         }
 
+ 
         public override void ObterComandoExcluir(int id)
         {
             string ExcluirCommand = "";
@@ -84,8 +85,8 @@ namespace AgendaTarefas.Controlador
                 ObterConexaoSqlite().Execute(ExcluirCommand, id);
             }
         }
-
         public override void ObterComandoInserir(Contato registro)
+
         {
             string InserirCommand = "";
             if (ConfigurationManager.ConnectionStrings["Default"].ProviderName == "SQL")
@@ -126,11 +127,12 @@ namespace AgendaTarefas.Controlador
                     ( Nome, email, telefone, empresa, cargo)
                     VALUES
                     (@Nome, @email, @telefone, @empresa, @cargo);";
+                InserirCommand += @"SELECT LAST_INSERT_ROWID();";
                 SQLiteCommand comando = new SQLiteCommand(InserirCommand, ObterConexaoSqlite());
                 ObterConexaoSqlite().Execute(InserirCommand, registro);
             }
-        }
-
+        }       
+        
         public override List<Contato> ObterComandoSelecionarTodos()
         {
             string comandoSelectComand = "";
@@ -171,7 +173,7 @@ namespace AgendaTarefas.Controlador
             }
             return registros;
         }
-
+ 
         public Contato ObterContatoPeloId(int id) 
         {
             string comandoSelectComand = "";
@@ -220,5 +222,6 @@ namespace AgendaTarefas.Controlador
             }
             return contato;
         }
+
     }
 }

@@ -45,21 +45,10 @@ namespace AgendaTarefas.Controlador
             else 
             {
                 InserirCommand =
-                    @"INSERT INTO TbTarefas 
-                (
-                    Titulo,
-                    Prioridade,
-                    DataAbertura,
-                    PercentualConclusao
-                )
+                    @"insert into TbTarefas (Titulo,Prioridade,DataAbertura,PercentualConclusao)
                     VALUES
-                (
-                    @Titulo,
-                    @Prioridade,
-                    @DataAbertura,
-                    @PercentualConclusao
-                );";
-                InserirCommand += @"SELECT SCOPE_IDENTITY();";
+                    (@Titulo,@Prioridade,@DataAbertura,@PercentualConclusao);";
+                InserirCommand += @"SELECT LAST_INSERT_ROWID();";
                 SQLiteCommand comando = new SQLiteCommand(InserirCommand,ObterConexaoSqlite());
                 ObterConexaoSqlite().Execute(InserirCommand, registro);
             }

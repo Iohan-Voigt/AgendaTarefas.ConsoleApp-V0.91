@@ -85,10 +85,10 @@ namespace AgendaTarefas.Controlador
         public override void ObterComandoInserir(Compromisso registro)
         {
             int possuicontato = 0;
-            string sqlInserirCommand;
+            string InserirCommand;
             if (registro.contato == null)
             {
-                sqlInserirCommand =
+                InserirCommand =
                     @"INSERT INTO TbCompromissos
                 (
                     [Assunto],
@@ -103,11 +103,12 @@ namespace AgendaTarefas.Controlador
                     @DataInicio,
                     @DataFinal
                 );";
+                InserirCommand += @"SELECT SCOPE_IDENTITY();";
             }
             else
             {
                 possuicontato = 1;
-                sqlInserirCommand =
+                InserirCommand =
                        @"INSERT INTO TbCompromissos
                 (
                     [Assunto],
@@ -124,12 +125,12 @@ namespace AgendaTarefas.Controlador
                     @DataInicio,
                     @DataFinal
                 );";
+                InserirCommand += @"SELECT LAST_INSERT_ROWID();";
             }
-            sqlInserirCommand += @"SELECT SCOPE_IDENTITY();";
 
-            SqlCommand comandoInsercao = new SqlCommand(sqlInserirCommand, ObterConexaoSql());
+            SqlCommand comandoInsercao = new SqlCommand(InserirCommand, ObterConexaoSql());
 
-            comandoInsercao.CommandText = sqlInserirCommand;
+            comandoInsercao.CommandText = InserirCommand;
             
             comandoInsercao.Parameters.Add("Assunto", registro.assunto);
             comandoInsercao.Parameters.Add("Local", registro.local);
